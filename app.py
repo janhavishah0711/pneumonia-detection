@@ -4,6 +4,8 @@ from monitoring import log_prediction
 import joblib
 import numpy as np
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from PIL import Image, UnidentifiedImageError
 
 
@@ -25,6 +27,14 @@ app = FastAPI(
     version="1.0.0",
 )
 
+STATIC_DIR = Path(__file__).with_name("static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+@app.get("/", include_in_schema=False)
+def frontend() -> FileResponse:
+    return FileResponse(STATIC_DIR / "index.html")
+
 
 @app.get("/health")
 def health() -> dict[str, str]:
@@ -44,7 +54,8 @@ def _preprocess_image(contents: bytes) -> np.ndarray:
             detail="The uploaded file is not a valid JPEG or PNG image.",
         ) from exc
 
-    return image_array.reshape(1, EXPECTED_FEATURES)
+    # Match the normalized pixel range used to fit the saved pipeline's scaler.
+    return (image_array / 255.0).reshape(1, EXPECTED_FEATURES)
 
 
 @app.post("/predict")

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123c39">
+  <title>Pulmo · Chest X-ray analysis</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Pulmo home"><span class="brand-mark">✳</span>pulmo<span class="brand-dot">.</span></a>
+    <span class="product-label">CHEST X-RAY ANALYSIS</span>
+    <a class="docs-link" href="/docs" target="_blank" rel="noopener">API documentation <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro">
+      <div><div class="eyebrow"><span></span> A CLEARER VIEW</div><h1>Every image.<br>A little more insight.</h1><p>Upload a chest X-ray to explore your model’s prediction<br class="desktop-break"> for normal and pneumonia patterns.</p></div>
+      <div class="intro-note"><span class="note-icon" aria-hidden="true">◎</span><div>One image. Two possible classes.<br><span>Powered by your trained ML model.</span></div></div>
+    </section>
+    <section class="workspace" aria-label="X-ray analysis workspace">
+      <div class="upload-panel panel">
+        <div class="panel-heading"><div><span class="step">01</span><h2>Your X-ray</h2></div><span class="tag">JPEG / PNG</span></div>
+        <input id="file-input" type="file" accept="image/jpeg,image/png" hidden>
+        <button id="drop-zone" class="drop-zone" type="button" aria-label="Choose a JPEG or PNG chest X-ray">
+          <span id="upload-prompt"><span class="upload-icon" aria-hidden="true">↑</span><strong>Drop your chest X-ray here</strong><span>or <u>browse files</u> to get started</span><small>JPEG or PNG · up to 10 MB</small></span>
+          <img id="preview" alt="Selected chest X-ray preview" hidden>
+          <span id="preview-label" class="preview-label" hidden>Click to replace image</span>
+        </button>
+        <div id="file-details" class="file-details" hidden><div><strong id="file-name"></strong><span id="file-size"></span></div><button id="remove-file" class="text-button" type="button">Remove</button></div>
+        <div class="upload-footnote"><span aria-hidden="true">ⓘ</span> Use a clear, frontal chest X-ray for analysis.</div>
+        <button id="analyze" class="primary-button" type="button" disabled><span>Analyze X-ray</span><span aria-hidden="true">↗</span></button>
+        <p id="error" class="error" role="alert" hidden></p>
+        <p class="privacy-note">Images are sent to this application for prediction.</p>
+      </div>
+      <div class="results-panel panel">
+        <div class="panel-heading"><div><span class="step">02</span><h2>Analysis results</h2></div><span id="result-status" class="status">Awaiting image</span></div>
+        <div id="empty-state" class="empty-state"><div class="scan-art" aria-hidden="true"><span class="scan-cross">+</span><div class="lung left-lung"></div><div class="lung right-lung"></div><div class="scan-line"></div></div><h3>A new perspective starts here.</h3><p>Your prediction and class probabilities will<br>appear here after you analyze an image.</p><span class="empty-rule"></span><small>READY WHEN YOU ARE</small></div>
+        <div id="loading-state" class="empty-state" role="status" hidden><span class="spinner"></span><h3>Reading your image…</h3><p>The model is processing your chest X-ray.</p></div>
+        <div id="result" class="result" aria-live="polite" hidden>
+          <span class="eyebrow">MODEL PREDICTION</span><h3 id="prediction"></h3><p id="result-description"></p>
+          <div class="probability-heading"><h4>Class probabilities</h4><span>MODEL ESTIMATE</span></div>
+          <div class="probability"><div><span>Pneumonia</span><strong id="pneumonia-value"></strong></div><progress id="pneumonia-bar" max="1" value="0" aria-label="Pneumonia probability"></progress></div>
+          <div class="probability normal"><div><span>Normal</span><strong id="normal-value"></strong></div><progress id="normal-bar" max="1" value="0" aria-label="Normal probability"></progress></div>
+          <div class="result-note">These values describe the model’s prediction. They do not establish a medical diagnosis.</div>
+          <button id="download" class="download-button" type="button">Download result <span aria-hidden="true">↓</span></button>
+        </div>
+      </div>
+    </section>
+    <section class="details-row" aria-label="About this analysis"><div><span class="detail-number">01 /</span><h3>Upload an image</h3><p>Select a chest X-ray in JPEG or PNG format.</p></div><div><span class="detail-number">02 /</span><h3>Let the model analyze</h3><p>Your image is prepared and classified automatically.</p></div><div><span class="detail-number">03 /</span><h3>Explore the prediction</h3><p>Review the predicted class and its probabilities.</p></div></section>
+    <aside class="disclaimer"><span aria-hidden="true">ⓘ</span><p><strong>Built for exploration, not diagnosis.</strong> This application is a machine learning demonstration. Results should not guide medical decisions. Consult a qualified healthcare professional for medical interpretation.</p></aside>
+  </main>
+  <footer><span class="footer-brand">pulmo.</span><span>A little clarity, one image at a time.</span><span>ML-powered image analysis</span></footer>
+</body>
+</html>

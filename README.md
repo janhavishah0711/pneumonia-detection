@@ -2,8 +2,9 @@
 
 This project exposes the trained `logistic_regression.pkl` pipeline through
 FastAPI. The pipeline is verified to accept 4,096 features, so uploaded images
-are converted to grayscale, resized to 64 x 64 pixels, and flattened before
-inference.
+are converted to grayscale, resized to 64 x 64 pixels, normalized to 0–1
+by dividing by 255, and flattened before inference. Normalization matches
+the input scale of the saved pipeline's fitted StandardScaler.
 
 ## Run the API
 
@@ -18,6 +19,13 @@ Start the development server from this directory:
 ```powershell
 python -m uvicorn app:app --reload
 ```
+
+Open the frontend at [http://127.0.0.1:8000](http://127.0.0.1:8000).
+Upload or drag in a JPEG/PNG chest X-ray (up to 10 MB), analyze it, and
+review the predicted class and probabilities. Results can be downloaded as JSON.
+The interface is served by FastAPI and requires no separate frontend build.
+The upload limit is enforced in the browser. Predictions are a demonstration,
+not a medical diagnosis.
 
 Open the interactive API documentation at
 [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
